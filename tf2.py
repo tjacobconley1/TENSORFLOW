@@ -10,8 +10,13 @@
 
 
 import numpy as np
+import cv
 import tensorflow as tf
 from tensorflow import keras
+from keras.preprocessing.image import ImageDataGenerator
+from keras.models import Sequential
+from keras.layers import Convolution2D, MaxPooling2D
+from keras.layers import Activation, Dropout, Flatten, Dense
 
 model = tf.keras.models.Sequential([
    # this layer specifies the input shape
@@ -30,10 +35,11 @@ model = tf.keras.models.Sequential([
 ])
 
 # directory containing training data
-TRAINING_DIR = '/tmp/faces/'
-
-#
-training_datagen = ImageDataGenerator(rescale = 1./255)
+TRAINING_DIR = '/faces/'
+VALIDATION_DIR = '/faces/'
+# declare the training data generator
+training_datagen = ImageDataGenerator(rescale=1./255)
+validation_datagen = ImageDataGenerator(rescale=1./255)
 
 #
 train_generator = training_datagen.flow_from_directory(
@@ -86,12 +92,12 @@ model.compile(loss='categorical_crossentropy',
 
 
 # fit the data
-# the training an validation datasets aren't labeled with a directory 
+# the training an validation datasets aren't labeled with a directory
 # because we are generating the dataset using the generators
 history = model.fit_generator(train_generator, epochs=25,
     validation_data = validation_generator,
     verbose = 1)
 
-
+#
 classes = model.predict(images, batch_size=10)
 
