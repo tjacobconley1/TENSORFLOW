@@ -79,17 +79,19 @@ model = tf.keras.models.Sequential([
 
 ])
 
-   # compile the NN
-    model.compile(loss='categorical_crossentropy',
-        optimizer='rmsprop',
-        metrics=['accuracy'])
+# compile the NN
+model.compile(loss='categorical_crossentropy',
+    optimizer='rmsprop',
+    metrics=['accuracy'])
 
 
-   # fit the data
-   # the training an validation datasets aren't labeled with a directory
-   # because we are generating the dataset using the generators
-    history = model.fit_generator(train_generator, epochs=25,
-        validation_data = validation_generator,
-        verbose = 1)
+# fit the data
+# the training an validation datasets aren't labeled with a directory 
+# because we are generating the dataset using the generators
+history = model.fit_generator(train_generator, epochs=25,
+    validation_data = validation_generator,
+    verbose = 1)
 
+
+classes = model.predict(images, batch_size=10)
 
